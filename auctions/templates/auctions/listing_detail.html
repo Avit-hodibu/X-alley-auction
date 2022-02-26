@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block body %}
+ <!-- Product Details Section Begin -->
+ <section class="product-details spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+            {% if not listing.active %}
+                {% if listing.winner == user.id %}
+                    <div class="row">
+                        <div class="col-12" style="background-color:#00b33c"><center ><h3 style="color:#f2f2f2;">CONGRATULATIONS! YOU ARE THE WINNER!</h3></center></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5"><h2>scan QR-code</h2>
+                        </div>
+                        <div class="col-2 ">
+                        <img class="product__details__pic__item" src="/static/img/qr.jpeg" alt="QR image" height="175px" width="auto">
+                        </div>
+                        <div class="col-5">
+                        <ul>
+                            <h3>NOTE:-IN REMARK WRITE:</h3>
+                            <li>Your Username</li>
+                            <li>LOT Number of product</li>
+                        </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__pic">
+                    <div class="product__details__pic__item">
+                        <img class="product__details__pic__item--large"
+                            src="/static/auctions/{{ listing.filename }}" alt="product image" height="500px" width="auto">
+                    </div>
+                </div>
+                {% if bids %}
+                <div class="w3-panel w3-light-gray w3-center">
+                    <h3>Bids :</h3>
+                </div>
+                <div class="w3-padding" style="max-height: 120px; overflow: auto;">
+                    {% for bid in bids %}
+                        <p class="w3-large"><strong>{{ bid.price }}</strong> by {{ bid.author }} ({{ bid.created }})</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__text">
+                    {% if listing.active %}
+                    <h3>{{ listing.title }}</h3>
+                    {% else %}
+                    <h3>{{ listing.title }} <span class="w3-text-red">CLOSED</span></h3>
+                    {% endif %}
+    
+                    <div class="product__details__rating">
+                        <span>LOT {{ listing.id }}</span>
+                    </div>
+                    <div class="product__details__price">
+                        
+                    {% if bids %}
+            
+                        {% if listing.active %}
+                            
+                            <p><strong>Current Bid ({{ bid_count }}) : {{ last_bid.price }}</strong></p>
+                        {% else %}
+                            <p><strong>Hummer Bid ({{ bid_count }}) : {{ last_bid.price }}</strong></p>
+                            <p ><strong>WINNER {{ winner }}</strong></p>
+                        {% endif %}
+                    {% endif %}
+                    </div>
+                    <p>
+                        {{ listing.description }}
+                    </p>
+                </div>    
+                {% if user.is_authenticated %}
+                    {% if listing.active %}
+                        {% if not consignor %}
+                    
+                    
+                        <div class="row">
+                            <div class="col-8 hero__search__form">
+                        {% if form %}
+                        <form method="post" action="{% url 'auctions:bid-create' listing.id %}">
+                            {% csrf_token %}
+                            <input type="number" name="price" min="{{ min_bid }}" placeholder="min {{ min_bid }}" required>
+                            <a href="{% url 'auctions:watch-create' listing.id %}"><button type="submit" class="site-btn">BID</button></a>
+                        </form>
+                         {% endif %}
+                        </div>
+                            <div class="col-4 hero__search__phone">
+                        {% if not watch %}
+                            <a href="{% url 'auctions:watch-create' listing.id %}" class="site-btn">WATCH ON </a>
+                        {% else %}
+                            <a href="{% url 'auctions:watch-delete' watch.id %}" class="site-btn">WATCH OFF</a>
+                        {% endif %}
+                            </div>
+                        </div>
+
+                        {% else %}
+                        <div class="row">
+                            <div class="col-12 hero__search__form">
+                                {% if bids %}
+                                <a class="site-btn" href="{% url 'auctions:listing-close' listing.id %}" onclick="return confirm('Are you sure?');">Close</a>
+                            {% else %}
+                                <a class="site-btn" href="{% url 'auctions:listing-delete' listing.id %}" onclick="return confirm('Are you sure?'");>Delete</a>
+                            {% endif %}
+                            <a class="site-btn" href="{% url 'auctions:listing-update' listing.id %}">Edit</a>
+                        
+                        
+                            </div>
+                        </div>
+                    
+                        {% endif %}
+                
+
+                    {% endif %}
+                {% endif %}
+        
+                    <ul style="list-style-type: none;">
+                        <li ><b>Auctioners : </b> <span>{{ listing.created_by }}</span></li>
+                        <li><b>Start price : </b> <span>{{ listing.start_price }}</span></li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+            
+            <section style="background-color: #eee;">
+                <div class="container my-5 py-5">
+                  <div class="row d-flex justify-content-center">
+                    <div class="col-md-12 col-lg-10 col-xl-8">
+                      <div class="card">
+                        
+                        <div class="card-body" style="max-height: 150px; overflow: auto;">
+                            {% for comment in comments %}
+                          <div class="d-flex flex-start align-items-center">
+                            <div>
+                              <h6 class="fw-bold text-primary m-0">|| {{ comment.author }} || {{ comment.created }}</h6>
+                            </div>
+                          </div>
+              
+                          <p class="m-0 m-0 pb-2">
+                            {{ comment.text }}
+                          </p>
+                          {% endfor %}
+                          
+                        </div>
+                       
+                        <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
+                            {% if user.is_authenticated %}
+                                {% if listing.active %}
+                                    {% if comment_form %}
+                            <form method="post" action="{% url 'auctions:comment-create' listing.id %}">
+                                {% csrf_token %}
+                            <div class="d-flex flex-start w-100">
+                            
+                            <div class="form-outline w-100">
+                                
+                              <textarea
+                                class="form-control"
+                                id="textAreaExample"
+                                type="text"
+                                name="text"
+                                rows="4"
+                                style="background: #fff;"
+                                placeholder="Write a comment"
+                              ></textarea>
+                              <label class="form-label" for="textAreaExample">Message</label>
+                            </div>
+                          </div>
+                          <div class="float-end mt-2 pt-1">
+                            <button  class="btn btn-primary btn-sm" type="submit" value="ADD" >Post comment</button>
+                            
+                          </div>
+                        </form>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <a href="{% url 'auctions:listing-detail' first.id %}" class="site-btn">&#10094;&#10094; First </a>
+                    {% if previous %}
+                    <a href="{% url 'auctions:listing-detail' previous.id %}" class="site-btn">&#10094;&#10094; Previous </a>
+                    {% endif %}
+                    {% if next %}
+                    <a href="{% url 'auctions:listing-detail' next.id %}" class="site-btn">Next &#10095;</a>
+                    {% endif %}
+                    <a href="{% url 'auctions:listing-detail' last.id %}" class="site-btn"> Last &#10095;&#10095;</a>
+                  
+                </div>
+            </div>
+
+    </div>
+</section>
+<!-- Product Details Section End -->
+{% endblock %}

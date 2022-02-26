@@ -1,0 +1,308 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ogani Template">
+    <meta name="keywords" content="Ogani, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>X-alley</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css'%}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/elegant-icons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link href="{% static 'auctions/w3re.css' %}" rel="stylesheet">
+       
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Humberger Begin -->
+    <div class="humberger__menu__overlay"></div>
+    <div class="humberger__menu__wrapper">
+       
+        <div class="humberger__menu__cart">
+            {% if user.is_authenticated %}
+                        <ul>
+                            <li><a href="{% url 'auctions:watch-list' user.id %}"><i class="fa fa-heart"></i> Watch List</a></li>
+                        </ul>
+                        <div class="header__cart__price"><span><a href="{% url 'auctions:myauction' %}">MY PRODUCT</a></span></div>
+                        {% else %}
+
+                {% endif %}
+        </div>
+        <div class="humberger__menu__widget">
+            <div class="header__top__right__auth">
+                {% if user.is_authenticated %}
+                <a href="{% url 'auctions:logout' %}"><i class="fa fa-user"></i>Logout</a>
+                {% else %}
+                <a href="{% url 'auctions:login' %}"><i class="fa fa-user"></i>
+                    Login
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        <nav class="humberger__menu__nav mobile-menu">
+            <ul>
+                <li class="active"><a href="{% url 'auctions:index' %}">Home</a></li>
+                <li><a href="{% url 'auctions:active' %}">Active List</a></li>
+                <li><a href="{% url 'auctions:listing-list' 9999 %}">Closed</a></li>
+
+                {% if user.is_authenticated %}
+                    
+                    <li><a href="{% url 'auctions:listing-create' %}">Add Auction</a></li>
+                    
+                {% else %}
+                    
+                {% endif %}
+            </ul>
+        </nav>
+        <div id="mobile-menu-wrap"></div>
+        <div class="header__top__right__social">
+            <a href="https://www.linkedin.com/in/avitrai/"><i class="fa fa-facebook"></i></a>
+            <a href="https://www.linkedin.com/in/avitrai/"><i class="fa fa-twitter"></i></a>
+            <a href="https://www.linkedin.com/in/avitrai/"><i class="fa fa-linkedin"></i></a>
+            <a href="https://www.linkedin.com/in/avitrai/"><i class="fa fa-pinterest-p"></i></a>
+        </div>
+        <div class="humberger__menu__contact">
+            <ul>
+                <li><i class="fa fa-envelope"></i> x-alley@company.com</li>
+                <li>  Sometime some action is really good and this is it</li>
+            </ul>
+        </div>
+    </div>
+    <!-- Humberger End -->
+
+    <!-- Header Section Begin -->
+    <header class="header">
+        <div class="header__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__left">
+                            <ul>
+                                <li><i class="fa fa-envelope"></i> x-alley@company.com</li>
+                                <li>  Sometime some action is really good and this is it</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__right">
+                            <div class="header__top__right__social">
+                                <a href="https://www.linkedin.com/in/avitrai/"><i class="fa fa-facebook"></i></a>
+                                <a href="https://www.linkedin.com/in/avitrai/"><i class="fa fa-twitter"></i></a>
+                                <a href="https://www.linkedin.com/in/avitrai/"><i class="fa fa-linkedin"></i></a>
+                                <a href="https://www.linkedin.com/in/avitrai/"><i class="fa fa-pinterest-p"></i></a>
+                            </div>
+                          
+                            <div class="header__top__right__auth">
+                                {% if user.is_authenticated %}
+                                <a href="{% url 'auctions:logout' %}"><i class="fa fa-user"></i>Logout</a>
+                                {% else %}
+                                <a href="{% url 'auctions:login' %}"><i class="fa fa-user"></i>
+                                    Login
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="header__logo">
+                        <!--logo-->
+                        <a href="{% url 'auctions:index' %}"><img src="/static/img/x-alley.png" alt="x-alley"></a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <nav class="header__menu">
+                        <ul>
+                            <li class="active"><a href="{% url 'auctions:index' %}">Home</a></li>
+                <li><a href="{% url 'auctions:active' %}">Active List</a></li>
+                <li><a href="{% url 'auctions:listing-list' 9999 %}">Closed</a></li>
+                            
+                            {% if user.is_authenticated %}
+                    
+                            <li><a href="{% url 'auctions:listing-create' %}">Add Auction</a></li>
+                            
+                            {% else %}
+                            
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3">
+                    <div class="header__cart">
+                        {% if user.is_authenticated %}
+                        <ul>
+                            <li><a href="{% url 'auctions:watch-list' user.id %}"><i class="fa fa-heart"></i>Watch List</a></li>
+                        </ul>
+                        <div class="header__cart__price"><span><a href="{% url 'auctions:myauction' %}">MY PRODUCT</a></span></div>
+                        {% else %}
+
+                        {% endif %}
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="humberger__open">
+                <i class="fa fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+
+    <!-- Hero Section Begin -->
+    <section class="hero hero-normal">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="hero__categories">
+                        <div class="hero__categories__all">
+                            <i class="fa fa-bars"></i>
+                            <span>Category</span>
+                        </div>
+                        <ul>
+                            {% for category in categories %}
+                                <li><a href="{% url 'auctions:listing-list' category.category__id %}">{{ category.category__title }} ({{ category.id__count }})</a></li>
+                                {% empty %}
+                                <h2>We have no category yet</h2>
+                            {% endfor %}    
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="hero__search">
+                        <div class="hero__search__form">
+                            <form method="GET" action="{% url 'auctions:search' %}">
+
+                                <input type="search" placeholder="search" aria-label="search" name="search" id="search">
+                                <button type="submit" class="site-btn">SEARCH</button>
+                            </form>
+                        </div>
+                        <div class="hero__search__phone">
+                            <div class="hero__search__phone__icon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="hero__search__phone__text">
+                                <h5>+977 98XXXXXXXX</h5>
+                                <span>support 9am-5pm</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="section-title">
+                {% if not form.title.value %}
+                <h2>CREATE LISTING</h2>
+                {% else %}
+                <h2>{{ form.title.value }}</h2>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <form class="w3-container w3-xlarge" method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input class="w3-button w3-teal w3-margin-left" type="submit" value="SUBMIT">
+    </form>
+
+
+
+        <!-- Footer Section Begin -->
+        <footer class="footer spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="footer__about">
+                            <div class="footer__about__logo">
+                                <!--logo photo-->
+                                <a href="{% url 'auctions:index' %}"><img src="/static/img/x-alley.png" alt=""></a>
+                            </div>
+                            <ul>
+                                <li>Address: Itahari -4</li>
+                                <li>Phone: +977 98XXXXXXXX</li>
+                                <li>Email: x-alley@company.com</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
+                        <div class="footer__widget">
+                            <h6>Useful Links</h6>
+                            <ul>
+                                <li><a href="{% url 'auctions:active' %}">Active Auction</a></li>
+                                <li><a href="{% url 'auctions:listing-list' 9999 %}">Closed Auction</a></li>
+                                
+                            </ul>
+                            <ul>
+                                <li><a href="{% url 'auctions:about' %}">About Us</a></li>
+                                <li><a href="{% url 'auctions:contact_page' %}">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="footer__widget">
+                            <h6>Join Us On Social Network Now</h6>
+                            
+                            <div class="footer__widget__social">
+                                <a href="https://www.linkedin.com/in/avitrai/"><i class="fa fa-facebook"></i></a>
+                                <a href="https://www.linkedin.com/in/avitrai/"><i class="fa fa-instagram"></i></a>
+                                <a href="https://www.linkedin.com/in/avitrai/"><i class="fa fa-twitter"></i></a>
+                                <a href="https://www.linkedin.com/in/avitrai/"><i class="fa fa-pinterest"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="footer__copyright">
+                            <div class="footer__copyright__text">
+                                <p>
+        || Copyright &copy; 2021 || Designed by The Three Heads ||
+                                </p>
+                            </div>
+                            <div class="footer__copyright__payment"><img src="img/payment-item.png" alt=""></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer Section End -->
+    
+        <!-- Js Plugins -->
+        <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+        <script src="{% static 'js/jquery-ui.min.js' %}"></script>
+        <script src="{% static 'js/jquery.slicknav.js' %}"></script>
+        <script src="{% static 'js/mixitup.min.js' %}"></script>
+        <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+        <script src="{% static 'js/main.js' %}"></script>
+    
+    </body>
+    
+    </html>

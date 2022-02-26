@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12 col-md-12" style="height:100vh;" >
+            <div class="footer__widget">
+                <center>
+            <form action="{% url 'auctions:listing-delete' object.id %}" method="post">
+                {% csrf_token %}
+                <h6>Are you sure you want to delete "{{ object.title }}"?</h6>
+                <a href="{% url 'auctions:active' %}" type="submit" class="btn btn-danger">Confirm</a>
+            </form>
+            <form action="{% url 'auctions:listing-detail' object.id %}" method="get">
+                {% csrf_token %}
+                <a href="{% url 'auctions:active' %}" class="primary-btn">Cancel</a>
+            </form>
+        </center>
+            </div>
+        </div>
+    </div>
+{% endblock %}

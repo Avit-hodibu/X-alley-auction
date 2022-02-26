@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="section-title">
+            <h2>Watch-List</h2>
+        </div>
+    </div>
+</div>
+
+
+<section class="shoping-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shoping__cart__table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="shoping__product">Products</th>
+                                <th>Auctioners</th>
+                                <th>Current Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for watch in watches %}
+                            <tr>
+                                <td class="shoping__cart__item">
+                                <a href="{% url 'auctions:listing-detail' watch.listing_id %}">
+                                    <img src="/static/auctions/{{ watch.image }}" alt="image" style="width:150px">
+                                    <h5>{{ watch.title }}</h5>
+                                </a>
+                                </td>
+                                <td class="shoping__cart__price">
+                                    {{ watch.created_by }}
+                                </td>
+
+                                <td class="shoping__cart__total">
+                                    {% if watch.active %}
+                                        Last bid : {{ watch.price }} ({{ watch.by }})
+                                    {% else %}
+                                        <span>CLOSED <span> Hummer bid : {{ watch.price }} ({{ watch.by }})
+                                        {% if watch.winner == user %}
+                                            <p class="w3-text-red w3-large">CONGRATULATION! It's your's!</p>
+                                        {% endif %}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</section>
+<!-- Shoping Cart Section End -->
+
+{% endblock %}
